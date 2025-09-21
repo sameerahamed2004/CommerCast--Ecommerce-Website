@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}CommerCast{% endblock %}</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+</head>
+<body>
+    <!-- Example Bootstrap Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'product_list' %}">CommerCast</a>
+    <form class="d-flex" method="get" action="{% url 'product_search' %}">
+      <input class="form-control me-2" type="search" name="q" placeholder="Search products…" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'cart_detail' %}">Cart</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'order_history' %}">Order History</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-primary" href="{% url 'signup' %}">Sign Up</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-outline-secondary ms-2" href="{% url 'login' %}">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    <div class="container mt-5">
+        <header>
+            <h1 class="mb-4">{% block heading %}CommerCast{% endblock %}</h1>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

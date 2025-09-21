@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<h2>Search Results for "{{ query }}"</h2>
+{% if products %}
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    {% for product in products %}
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height:220px;object-fit:contain;">
+          {% else %}
+            <img src="https://via.placeholder.com/220x220?text=No+Image" class="card-img-top" alt="No image" style="height:220px;object-fit:contain;">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-truncate" style="max-width:95%;">
+              <a href="{% url 'product_detail' product.slug %}" class="text-decoration-none text-dark">{{ product.name }}</a>
+            </h5>
+            <p class="card-text mb-2" style="font-weight:bold;font-size:1.1rem;">₹{{ product.price }}</p>
+            <div class="mt-auto">
+              <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning w-100">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-warning mt-4">No products found for "{{ query }}".</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+
+      <div class="card shadow border-0 rounded-4 px-4 py-4">
+        <h2 class="fw-bold text-center mb-1" style="letter-spacing:0.05em; color:#003361;">CommerCast</h2>
+        <h4 class="fw-bold mt-2 mb-3 text-primary text-center">Checkout</h4>
+        
+        <h5 class="mb-2 mt-4" style="font-weight:500; color: #212529;">Deliver To</h5>
+        <div class="bg-light p-3 rounded-3 mb-3 border" style="border-left: 6px solid #0D8ABC;">
+          <div class="mb-1 fs-5 fw-semibold text-uppercase" style="color:#0B5ED7;">
+            {{ address.full_name }}
+          </div>
+          <div class="mb-1" style="line-height:1.6;">
+            {{ address.address_line1 }}<br>
+            {% if address.address_line2 %}{{ address.address_line2 }}<br>{% endif %}
+            {{ address.city }}, {{ address.state }} — {{ address.postal_code }}<br>
+            <span class="text-muted small">Phone: {{ address.phone }}</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <a href="{% url 'add_address' %}" class="btn btn-outline-primary btn-sm">Edit Address</a>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center border-top border-bottom py-3 my-3">
+          <span class="fw-semibold text-secondary">Total to pay:</span>
+          <span class="fs-4 fw-bold text-success">₹{{ total_price|floatformat:2 }}</span>
+        </div>
+
+        <form method="post" class="mt-3 d-grid">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success btn-lg rounded-3 shadow-sm">Confirm Purchase</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

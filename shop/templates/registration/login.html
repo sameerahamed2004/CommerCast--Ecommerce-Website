@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height:70vh;">
+  <div class="card shadow" style="min-width:350px;max-width:400px;width:100%;">
+    <div class="card-body">
+      <h3 class="card-title mb-4 text-center">Sign In to Your Account</h3>
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% if form.errors %}
+          <div class="alert alert-danger py-2">
+            Please enter a correct username and password.<br>
+            <small>{{ form.non_field_errors }}</small>
+          </div>
+        {% endif %}
+        <div class="mb-3">
+          <label class="form-label" for="id_username">Username</label>
+          {{ form.username }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="id_password">Password</label>
+          {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+      <div class="mt-3 text-center">
+        <span>Don't have an account?</span>
+        <a href="{% url 'signup' %}">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

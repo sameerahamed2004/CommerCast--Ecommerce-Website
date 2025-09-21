@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load shop_extras %}
+
+{% block content %}
+<div class="container my-4">
+
+  {% if product %}
+    <div class="row mb-4">
+      <div class="col-md-5">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow">
+        {% else %}
+          <img src="https://via.placeholder.com/350x350?text=No+Image" class="img-fluid rounded shadow" alt="No Image">
+        {% endif %}
+      </div>
+      <div class="col-md-7">
+        <h2>{{ product.name }}</h2>
+        <p class="text-muted">{{ product.category.name }}</p>
+        <p>{{ product.description }}</p>
+        <p><strong>Price:</strong> ₹{{ product.price }}</p>
+        <p>
+          {% if product.stock > 0 %}
+            <span class="badge bg-success">In Stock: {{ product.stock }}</span>
+          {% else %}
+            <span class="badge bg-danger">Out of Stock</span>
+          {% endif %}
+        </p>
+        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning me-2">Add to Cart</a>
+        <a href="{% url 'buy_now' product.id %}" class="btn btn-success">Buy Now</a>
+      </div>
+    </div>
+  {% endif %}
+
+  <h4>Customer Reviews</h4>
+  {% if reviews %}
+    <div class="mb-3">
+      <strong>Average Rating:</strong>
+      {% with avg=reviews|average:"rating" %}
+        {% for i in "12345" %}
+          {% if forloop.counter <= avg %}
+            <span class="text-warning">&#9733;</span>
+          {% else %}
+            <span class="text-secondary">&#9733;</span>
+          {% endif %}
+        {% endfor %}
+        ({{ avg|floatformat:1 }}/5)
+      {% endwith %}
+    </div>
+    <ul class="list-group mb-4">
+      {% for review in reviews %}
+        <li class="list-group-item">
+          <strong>{{ review.user.username }}</strong> 
+          <small class="text-muted">{{ review.date_added|date:"M d, Y" }}</small><br>
+          {% for i in "12345"|slice:":review.rating" %}
+            <span class="text-warning">&#9733;</span>
+          {% endfor %}
+          {{ review.comment }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    {% if not already_reviewed %}
+      <h5>Add Your Review</h5>
+      <form method="post">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+      </form>
+    {% else %}
+      <p class="text-success">You’ve already reviewed this product.</p>
+    {% endif %}
+  {% else %}
+    <p><a href="{% url 'login' %}">Login</a> to add your review.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

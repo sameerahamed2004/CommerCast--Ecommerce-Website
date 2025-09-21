@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+HELLO PAGE
+<div class="container my-5 py-3">
+  <div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+      <div class="card p-4 shadow border-0">
+        <div class="text-center mb-3">
+          <img src="https://ui-avatars.com/api/?size=128&name={{ user.get_full_name|default:user.username }}&background=0D8ABC&color=fff"
+               class="rounded-circle shadow mb-2" alt="Profile" width="90" height="90">
+          <h4 class="fw-bold mb-1 mt-2">{{ user.get_full_name|default:user.username }}</h4>
+          <span class="text-muted">@{{ user.username }}</span>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            {{ form.first_name }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            {{ form.last_name }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email address</label>
+            {{ form.Email_address }}
+          </div>
+          <button type="submit" class="btn btn-primary w-100 mb-2">Update Info</button>
+          <a href="{% url 'password_change' %}" class="btn btn-outline-secondary w-100">Change Password</a>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-8 mt-4 mt-lg-0">
+      <div class="card shadow border-0 p-4">
+        <h4 class="mb-3">My Orders</h4>
+        {% if orders %}
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Products</th>
+                <th>Qty</th>
+                <th class="text-end">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+              <tr>
+                <td>{{ order.date_placed|date:"M d, Y H:i" }}</td>
+                <td>
+                  <ul class="list-unstyled mb-0">
+                  {% for item in order.items.all %}
+                    <li>{{ item.product.name }}</li>
+                  {% endfor %}
+                  </ul>
+                </td>
+                <td>
+                  <ul class="list-unstyled mb-0">
+                  {% for item in order.items.all %}
+                    <li>{{ item.quantity }}</li>
+                  {% endfor %}
+                  </ul>
+                </td>
+                <td class="fw-bold text-end">₹{{ order.total_price }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+          <div class="alert alert-info mb-0">No orders yet.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
