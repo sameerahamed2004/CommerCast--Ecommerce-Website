@@ -26,11 +26,11 @@ SECRET_KEY = 'django-insecure-tbg9ems#s41g+nvng*2%e8o!_69#dwsjgnedm@fb3owslz*qy3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['commercast-ecommerce-website.onrender.com']
+ALLOWED_HOSTS = ['commercast-ecommerce-website-01.onrender.com']
 
 LOGIN_REDICERT_URL='/'
 
-CSRF_TRUSTED_ORIGINS=['https://commercast-ecommerce-website.onrender.com']
+CSRF_TRUSTED_ORIGINS=['https://commercast-ecommerce-website-01.onrender.com']
 
 
 # Application definition
@@ -137,3 +137,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
